@@ -13,7 +13,8 @@ public partial class UsersdbContext : DbContext
         Database.EnsureCreated();
     }
 
-    public UsersdbContext(DbContextOptions<UsersdbContext> options): base(options)
+    public UsersdbContext(DbContextOptions<UsersdbContext> options)
+        : base(options)
     {
     }
 
@@ -35,17 +36,38 @@ public partial class UsersdbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
             entity.Property(e => e.ParentId).HasColumnName("ParentID");
+
+            entity.HasOne(d => d.Manager).WithMany(p => p.Departments)
+                .HasForeignKey(d => d.ManagerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("departments_departments_fk_1");
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
+                .HasForeignKey(d => d.ParentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("departments_departments_fk");
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("ID");
+
+            entity.HasOne(d => d.DepartmentNavigation).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.Department)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("employees_departments_fk");
+
+            entity.HasOne(d => d.JobTitleNavigation).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.JobTitle)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("employees_jobtitles_fk");
         });
 
         modelBuilder.Entity<JobTitle>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("ID");
         });
+
         OnModelCreatingPartial(modelBuilder);
     }
 

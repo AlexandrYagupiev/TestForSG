@@ -53,11 +53,11 @@ namespace TestForSG
                         if (lineEmployee != null)
                         {
                             var employee = new Employee();
-                            //employee.Department = int.Parse(usersdbContext.Departments.Where(t => t.Name == lineEmployee[0]).Select(t => t.Id).ToString());
+                            //employee.Department = ;
                             employee.FullName = lineEmployee[1];
                             employee.Login = lineEmployee[2];
                             employee.Password = lineEmployee[3];
-                            //employee.JobTitle = int.Parse(usersdbContext.JobTitles.Where(t => t.Name == lineEmployee[4]).Select(t => t.Id).ToString());
+                            //employee.JobTitle = ;
                             usersdbContext.Employees.Add(employee);
                             usersdbContext.SaveChanges();
                         }
@@ -73,10 +73,8 @@ namespace TestForSG
                         var lineEmployee = departmentRead[i].Split("\t");
                         if (lineEmployee != null)
                         {
-                            var department = new Department();
+                            var department = new Department(); 
                             
-                            //department.ParentId = 
-                            //department.ManagerId = 
                             department.Name = lineEmployee[2];
                             department.Phone = lineEmployee[3].Replace(" ","");
 

@@ -41,6 +41,12 @@ namespace TestForSG
                             throw new Exception("В базе уже есть такая должность");
                         }
                     }
+                    var jobTitles = usersdbContext.JobTitles.ToList();
+                    Console.WriteLine("Список объектов:");
+                    foreach (var jobTitl in jobTitles)
+                    {
+                        Console.WriteLine($"{jobTitl.Id}.{jobTitl.Name}");
+                    }
                     streamReaderJobTitle.Close();
                 }
                 else if (importType == "сотрудник")
@@ -82,6 +88,7 @@ namespace TestForSG
                             usersdbContext.SaveChanges();
                         }
                     }
+                    streamReaderDepartment.Close();
                 }
             }
         }

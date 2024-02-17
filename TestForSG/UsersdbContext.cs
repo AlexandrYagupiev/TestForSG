@@ -8,15 +8,35 @@ namespace TestForSG;
 
 public partial class UsersdbContext : DbContext
 {
-    public UsersdbContext()
+    private readonly bool debug;
+    private readonly string connectionString;
+
+    //public UsersdbContext()
+    //{
+    //    Database.EnsureCreated();
+    //}
+
+    public UsersdbContext(string connString, bool debug = false)
     {
+        if (connString != null)
+        {
+            this.connectionString = connString;
+        }
+        if (debug)
+        {
+            Database.EnsureDeleted();
+        }
         Database.EnsureCreated();
+        this.debug = debug;
+
+
     }
 
-    public UsersdbContext(DbContextOptions<UsersdbContext> options)
-        : base(options)
-    {
-    }
+    //public UsersdbContext(DbContextOptions<UsersdbContext> options)
+    //    : base(options)
+    //{
+    //}
+
 
     public virtual DbSet<Department> Departments { get; set; }
 
@@ -26,7 +46,14 @@ public partial class UsersdbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(ConfigurationManager.ConnectionStrings["NpgsqlСonnection"].ConnectionString);
+        if (debug)
+        {
+            optionsBuilder.EnableSensitiveDataLogging(true);
+        }
+        if (connectionString != null)
+        {
+            optionsBuilder.UseNpgsql(connectionString);
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,12 +67,14 @@ public partial class UsersdbContext : DbContext
             entity.HasOne(d => d.Manager).WithMany(p => p.Departments)
                 .HasForeignKey(d => d.ManagerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("departments_departments_fk_1");
+                .HasConstraintName("departments_employees_fk");
+                //.IsRequired();
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("departments_departments_fk");
+                //.IsRequired();
         });
 
         modelBuilder.Entity<Employee>(entity =>

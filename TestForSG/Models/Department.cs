@@ -7,9 +7,9 @@ public partial class Department
 {
     public int Id { get; set; }
 
-    public int ParentId { get; set; }
+    public int? ParentId { get; set; }
 
-    public int ManagerId { get; set; }
+    public int? ManagerId { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -19,7 +19,12 @@ public partial class Department
 
     public virtual ICollection<Department> InverseParent { get; set; } = new List<Department>();
 
-    public virtual Employee Manager { get; set; } = null!;
+    public virtual Employee? Manager { get; set; } = null!;
 
-    public virtual Department Parent { get; set; } = null!;
+    public virtual Department? Parent { get; set; } = null!;
+
+    public override string ToString()
+    {
+        return $"{nameof(Id)}:{Id} {nameof(ParentId)}:{ParentId} {nameof(ManagerId)}:{ManagerId} {nameof(Name)}:{Name} {nameof(Phone)}:{Phone}";
+    }
 }

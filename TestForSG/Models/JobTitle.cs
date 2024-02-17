@@ -10,4 +10,9 @@ public partial class JobTitle
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+
+    public override string ToString()
+    {
+        return $"{nameof(Id)}:{Id} {nameof(Name)}:{Name}";
+    }
 }

@@ -11,11 +11,6 @@ public partial class UsersdbContext : DbContext
     private readonly bool debug;
     private readonly string connectionString;
 
-    //public UsersdbContext()
-    //{
-    //    Database.EnsureCreated();
-    //}
-
     public UsersdbContext(string connString, bool debug = false)
     {
         if (connString != null)
@@ -31,12 +26,6 @@ public partial class UsersdbContext : DbContext
 
 
     }
-
-    //public UsersdbContext(DbContextOptions<UsersdbContext> options)
-    //    : base(options)
-    //{
-    //}
-
 
     public virtual DbSet<Department> Departments { get; set; }
 
@@ -54,6 +43,7 @@ public partial class UsersdbContext : DbContext
         {
             optionsBuilder.UseNpgsql(connectionString);
         }
+        //optionsBuilder.LogTo(System.Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

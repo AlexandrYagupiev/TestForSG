@@ -13,11 +13,21 @@ namespace TestForSG
     {
         static void Main(string[] args)
         {
-            var path = Prompt.Input<string>("Укажите путь к файлу");
-            var importType = Prompt.Select("Выберете тип импорта", new[] { "подразделение", "сотрудник", "должность" });
+        //    var path = Prompt.Input<string>("Укажите путь к файлу");
+        //    var importType = Prompt.Select("Выберете тип импорта", new[] { "подразделение", "сотрудник", "должность" });
             var BusinessLogic = new BusinessLogic(ConfigurationManager.ConnectionStrings["NpgsqlСonnection"].ConnectionString,false);
-            BusinessLogic.ReadFile(path, importType);
-            Console.WriteLine("Считал");
+            try
+            {
+                //BusinessLogic.ReadFile(path, importType);
+                //Console.WriteLine("Файл успешно считан");
+                var id = Prompt.Input<int>("Укажите id подразделения");
+                BusinessLogic.OutputCurrentDataStructure(id);
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
 
 

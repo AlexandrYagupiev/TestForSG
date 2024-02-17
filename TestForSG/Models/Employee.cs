@@ -9,7 +9,7 @@ public partial class Employee
 {
     public int Id { get; set; }
 
-    public int Department { get; set; }
+    public int? Department { get; set; }
 
     public string FullName { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public partial class Employee
 
     public string Password { get; set; } = null!;
 
-    public int JobTitle { get; set; }
+    public int? JobTitle { get; set; }
 
     public virtual Department DepartmentNavigation { get; set; } = null!;
 
